@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/seancrowley-jpg/ent-web-dev-assignment-1#readme",
   "dependencies": {
+    "@hapi/cookie": "^11.0.2",
     "@hapi/hapi": "^20.1.0",
     "@hapi/inert": "^6.0.3",
     "@hapi/vision": "^6.0.1",
