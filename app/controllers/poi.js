@@ -1,17 +1,12 @@
 const Poi = {
-  index: {
+  home: {
     handler: function (request, h) {
-      return h.view("main", { title: "Points of Interest" });
+      return h.view("home", { title: "Add a Point of Interest" });
     },
   },
-  signup: {
+  report: {
     handler: function (request, h) {
-      return h.view("signup", { title: "Signup for POI" });
-    },
-  },
-  login: {
-    handler: function (request, h) {
-      return h.view("login", { title: "Login to POI" });
+      return h.view("report", { title: "View Points of Interest" });
     },
   },
 };
