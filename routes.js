@@ -11,4 +11,6 @@ module.exports = [
       },
     },
   },
+  { method: "GET", path: "/signup", config: Poi.signup },
+  { method: "GET", path: "/login", config: Poi.login },
 ];
