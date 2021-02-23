@@ -15,10 +15,13 @@ async function init() {
   await server.register(Vision);
   server.views({
     engines: {
-      hbs: Handlebars,
+      hbs: require("handlebars"),
     },
     relativeTo: __dirname,
     path: "./app/views",
+    layoutPath: "./app/views/layouts",
+    partialsPath: "./app/views/partials",
+    layout: true,
     isCached: false,
   });
 
