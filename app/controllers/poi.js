@@ -9,7 +9,7 @@ const Poi = {
   },
   report: {
     handler: async function (request, h) {
-      const pois = await Walk.find().lean();
+      const pois = await Walk.find().populate("user").lean();
       return h.view("report", {
         title: "View Points of Interest",
         poi: pois,
@@ -26,8 +26,7 @@ const Poi = {
         description: data.description,
         lat: data.lat,
         lon: data.lon,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        user: user._id,
       });
       await newWalk.save();
       return h.redirect("/report");
