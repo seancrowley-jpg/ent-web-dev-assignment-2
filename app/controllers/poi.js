@@ -1,4 +1,5 @@
 const Walk = require("../models/poi");
+const User = require("../models/user");
 
 const Poi = {
   home: {
@@ -17,12 +18,16 @@ const Poi = {
   },
   addPoi: {
     handler: async function (request, h) {
+      const id = request.auth.credentials.id;
+      const user = await User.findById(id);
       const data = request.payload;
       const newWalk = new Walk({
         name: data.name,
         description: data.description,
         lat: data.lat,
         lon: data.lon,
+        firstName: user.firstName,
+        lastName: user.lastName,
       });
       await newWalk.save();
       return h.redirect("/report");

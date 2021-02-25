@@ -6,12 +6,18 @@
         <thead>
         <th>Name</th>
         <th>Description</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th>Added By</th>
         </thead>
         <tbody class="uk-text-left">
         {{#each poi}}
             <tr>
                 <td>{{name}}</td>
                 <td>{{description}}</td>
+                <td>{{lat}}</td>
+                <td>{{lon}}</td>
+                <td>{{firstName}} {{lastName}}</td>
             </tr>
         {{/each}}
         </tbody>
