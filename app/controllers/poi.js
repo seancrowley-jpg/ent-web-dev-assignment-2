@@ -16,6 +16,17 @@ const Poi = {
       });
     },
   },
+  userReport: {
+    handler: async function (request, h) {
+      const id = request.auth.credentials.id;
+      const user = await User.findById(id);
+      const pois = await Walk.find({ user: user._id }).populate("user").lean();
+      return h.view("user-report", {
+        title: "My Points of Interest",
+        poi: pois,
+      });
+    },
+  },
   addPoi: {
     handler: async function (request, h) {
       const id = request.auth.credentials.id;

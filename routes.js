@@ -14,6 +14,7 @@ module.exports = [
 
   { method: "GET", path: "/home", config: Poi.home },
   { method: "GET", path: "/report", config: Poi.report },
+  { method: "GET", path: "/user-report", config: Poi.userReport },
   { method: "POST", path: "/add-poi", config: Poi.addPoi },
 
   {
