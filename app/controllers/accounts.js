@@ -1,6 +1,7 @@
 "use strict";
 
 const User = require("../models/user");
+const Poi = require("../models/poi");
 const Boom = require("@hapi/boom");
 
 const Accounts = {
@@ -97,6 +98,7 @@ const Accounts = {
       try {
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
+        await Poi.find({ user: user._id }).remove();
         await user.remove();
         return h.redirect("/");
       } catch (err) {
