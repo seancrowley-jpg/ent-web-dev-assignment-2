@@ -12,6 +12,10 @@
             <div class="uk-card uk-card-default uk-width-xlarge uk-card-body uk-box-shadow-large">
                 <h3 class="uk-card-title uk-text-center">Your Details: </h3>
                 {{> settings-form}}
+                <h3 class="uk-card-title uk-text-center">Delete Account: </h3>
+                <form action="/deleteUser" method="POST">
+                    <button class="uk-button uk-button-primary uk-button-danger uk-width-1-1 uk-margin-small-bottom">Delete Account</button>
+                </form>
             </div>
         </div>
     </div>
