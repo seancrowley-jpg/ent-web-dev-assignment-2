@@ -7,6 +7,7 @@ const Poi = {
       return h.view("home", { title: "Add a Point of Interest" });
     },
   },
+
   report: {
     handler: async function (request, h) {
       const pois = await Walk.find().populate("user").lean();
@@ -16,6 +17,7 @@ const Poi = {
       });
     },
   },
+
   userReport: {
     handler: async function (request, h) {
       const id = request.auth.credentials.id;
@@ -27,6 +29,7 @@ const Poi = {
       });
     },
   },
+
   addPoi: {
     handler: async function (request, h) {
       const id = request.auth.credentials.id;
@@ -41,6 +44,18 @@ const Poi = {
       });
       await newWalk.save();
       return h.redirect("/report");
+    },
+  },
+
+  viewPoi: {
+    handler: async function (request, h) {
+      //const id = request.params._id;
+      const poi = await Walk.findById({ _id: request.params._id }).lean();
+      console.log(poi);
+      return h.view("poi", {
+        title: "Viewing Point of Interest",
+        poi: poi,
+      });
     },
   },
 };
