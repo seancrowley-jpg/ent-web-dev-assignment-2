@@ -92,6 +92,19 @@ const Accounts = {
     },
   },
 
+  deleteUser: {
+    handler: async function (request, h) {
+      try {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id);
+        await user.remove();
+        return h.redirect("/");
+      } catch (err) {
+        return h.view("settings", { errors: [{ message: err.message }] });
+      }
+    },
+  },
+
   logout: {
     auth: false,
     handler: function (request, h) {
