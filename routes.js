@@ -8,6 +8,7 @@ module.exports = [
   { method: "GET", path: "/logout", config: Accounts.logout },
   { method: "GET", path: "/settings", config: Accounts.showSettings },
   { method: "POST", path: "/settings", config: Accounts.updateSettings },
+  { method: "POST", path: "/deleteUser", config: Accounts.deleteUser },
   { method: "POST", path: "/signup", config: Accounts.signup },
   { method: "POST", path: "/login", config: Accounts.login },
 
