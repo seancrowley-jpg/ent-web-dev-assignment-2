@@ -18,7 +18,7 @@ module.exports = [
   { method: "GET", path: "/deletePoi/{_id}", config: Poi.deletePoi },
   { method: "GET", path: "/poi/{_id}", config: Poi.viewPoi },
   { method: "GET", path: "/update-poi/{_id}", config: Poi.showUpdatePoi },
-  { method: "POST", path: "/update-poi", config: Poi.updatePoi },
+  { method: "POST", path: "/update-poi/{_id}", config: Poi.updatePoi },
   { method: "POST", path: "/add-poi", config: Poi.addPoi },
 
   {
