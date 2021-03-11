@@ -6,19 +6,16 @@
         <thead>
         <th>Name</th>
         <th>Description</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
         <th>View Poi</th>
+        <th>Delete Poi</th>
         </thead>
         <tbody class="uk-text-left">
         {{#each poi}}
             <tr>
                 <td>{{name}}</td>
                 <td>{{description}}</td>
-                <td>{{lat}}</td>
-                <td>{{lon}}</td>
                 <td><a href="poi/{{_id}}"><button class="uk-button uk-button-primary uk-button-small">View</button></a> </td>
-                <td><a href="deletePoi/{{_id}}"><button class="uk-button uk-button-primary uk-button-small">Delete</button></a> </td>
+                <td><a href="deletePoi/{{_id}}"><button class="uk-button-danger uk-button-primary uk-button-small">Delete</button></a> </td>
             </tr>
         {{/each}}
         </tbody>
