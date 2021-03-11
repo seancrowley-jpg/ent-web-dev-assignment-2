@@ -49,13 +49,19 @@ const Poi = {
 
   viewPoi: {
     handler: async function (request, h) {
-      //const id = request.params._id;
       const poi = await Walk.findById({ _id: request.params._id }).lean();
       console.log(poi);
       return h.view("poi", {
         title: "Viewing Point of Interest",
         poi: poi,
       });
+    },
+  },
+
+  deletePoi: {
+    handler: async function (request, h) {
+      await Walk.findById({ _id: request.params._id }).remove();
+      return h.redirect("/user-report");
     },
   },
 };
