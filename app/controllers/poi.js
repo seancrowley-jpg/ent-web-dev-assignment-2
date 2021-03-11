@@ -41,8 +41,10 @@ const Poi = {
         lat: data.lat,
         lon: data.lon,
         user: user._id,
+        category: data.category,
       });
       await newWalk.save();
+      console.log(newWalk);
       return h.redirect("/report");
     },
   },
