@@ -64,6 +64,17 @@ const Poi = {
       return h.redirect("/user-report");
     },
   },
+
+  showUpdatePoi: {
+    handler: async function (request, h) {
+      const poi = await Walk.findById({ _id: request.params._id }).lean();
+      console.log(poi.name);
+      return h.view("update-poi", {
+        title: "Update Point of Interest",
+        poi: poi,
+      });
+    },
+  },
 };
 
 module.exports = Poi;
