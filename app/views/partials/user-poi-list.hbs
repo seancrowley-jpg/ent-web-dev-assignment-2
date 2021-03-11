@@ -7,6 +7,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>View Poi</th>
+        <th>Edit Poi</th>
         <th>Delete Poi</th>
         </thead>
         <tbody class="uk-text-left">
@@ -15,6 +16,7 @@
                 <td>{{name}}</td>
                 <td>{{description}}</td>
                 <td><a href="poi/{{_id}}"><button class="uk-button uk-button-primary uk-button-small">View</button></a> </td>
+                <td><a href="update-poi/{{_id}}"><button class="uk-button uk-button-primary uk-button-small">Edit</button></a> </td>
                 <td><a href="deletePoi/{{_id}}"><button class="uk-button-danger uk-button-primary uk-button-small">Delete</button></a> </td>
             </tr>
         {{/each}}
