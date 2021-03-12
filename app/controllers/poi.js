@@ -44,7 +44,7 @@ const Poi = {
         lon: data.lon,
         user: user._id,
         category: data.category,
-        image: null,
+        image: [],
       });
       await newWalk.save();
       console.log(newWalk);
@@ -54,11 +54,15 @@ const Poi = {
 
   viewPoi: {
     handler: async function (request, h) {
-      const poi = await Walk.findById({ _id: request.params._id }).lean();
-      console.log(poi);
+      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+      const images = [];
+      images.push(poi.image);
+      console.log("IMAGES", images);
+      console.log("poi: ", poi);
       return h.view("poi", {
         title: "Viewing Point of Interest",
         poi: poi,
+        images: images,
       });
     },
   },
@@ -106,7 +110,7 @@ const Poi = {
           });
           await newImage.save();
           console.log(poi);
-          poi.image = newImage._id;
+          await poi.image.push(newImage._id);
           await poi.save();
           return h.redirect("/user-report");
         }
