@@ -1,5 +1,7 @@
 const Walk = require("../models/poi");
 const User = require("../models/user");
+const Image = require("../models/image");
+const ImageStore = require("../utils/image-store");
 
 const Poi = {
   home: {
@@ -42,6 +44,7 @@ const Poi = {
         lon: data.lon,
         user: user._id,
         category: data.category,
+        image: null,
       });
       await newWalk.save();
       console.log(newWalk);
@@ -87,6 +90,39 @@ const Poi = {
       poi.lon = poiEdit.lon;
       await poi.save();
       return h.redirect("/user-report");
+    },
+  },
+
+  addImage: {
+    handler: async function (request, h) {
+      try {
+        const file = request.payload.imagefile;
+        const poi = await Walk.findById({ _id: request.params._id });
+        if (Object.keys(file).length > 0) {
+          const result = await ImageStore.uploadImage(file);
+          const newImage = new Image({
+            url: result.url,
+            public_id: result.public_id,
+          });
+          await newImage.save();
+          console.log(poi);
+          poi.image = newImage._id;
+          await poi.save();
+          return h.redirect("/user-report");
+        }
+        return h.view("report", {
+          title: "error",
+          error: "No file selected",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    payload: {
+      multipart: true,
+      output: "data",
+      maxBytes: 209715200,
+      parse: true,
     },
   },
 };

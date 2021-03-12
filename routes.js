@@ -20,6 +20,7 @@ module.exports = [
   { method: "GET", path: "/update-poi/{_id}", config: Poi.showUpdatePoi },
   { method: "POST", path: "/update-poi/{_id}", config: Poi.updatePoi },
   { method: "POST", path: "/add-poi", config: Poi.addPoi },
+  { method: "POST", path: "/uploadfile/{_id}", config: Poi.addImage },
 
   {
     method: "GET",
