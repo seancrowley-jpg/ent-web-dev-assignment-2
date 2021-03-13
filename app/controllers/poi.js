@@ -63,6 +63,17 @@ const Poi = {
     },
   },
 
+  viewUserPoi: {
+    handler: async function (request, h) {
+      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+      console.log("poi: ", poi);
+      return h.view("user-poi", {
+        title: "Viewing Your Point of Interest",
+        poi: poi,
+      });
+    },
+  },
+
   deletePoi: {
     handler: async function (request, h) {
       await Walk.findById({ _id: request.params._id }).remove();
