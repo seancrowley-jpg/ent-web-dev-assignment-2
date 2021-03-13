@@ -55,14 +55,10 @@ const Poi = {
   viewPoi: {
     handler: async function (request, h) {
       const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
-      const images = [];
-      images.push(poi.image);
-      console.log("IMAGES", images);
       console.log("poi: ", poi);
       return h.view("poi", {
         title: "Viewing Point of Interest",
         poi: poi,
-        images: images,
       });
     },
   },
@@ -127,6 +123,19 @@ const Poi = {
       output: "data",
       maxBytes: 209715200,
       parse: true,
+    },
+  },
+
+  deleteImage: {
+    handler: async function (request, h) {
+      try {
+        const public_id = request.params.public_id;
+        await ImageStore.deleteImage(public_id);
+        await Image.find({ public_id: public_id }).remove();
+        return h.redirect("/user-report");
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
