@@ -2,6 +2,27 @@ const Walk = require("../models/poi");
 const User = require("../models/user");
 const Image = require("../models/image");
 const ImageStore = require("../utils/image-store");
+const axios = require("axios");
+
+async function getWeather(poi) {
+  const apiKey = process.env.api_key;
+  let weather = {};
+  const weatherRequest = `https://api.openweathermap.org/data/2.5/weather?lat=${poi.lat}&lon=${poi.lon}&appid=${apiKey}`;
+  const response = await axios.get(weatherRequest);
+  if (response.status == 200) {
+    weather = response.data;
+  }
+  const report = {
+    feelsLike: Math.round(weather.main.feels_like - 273.15),
+    clouds: weather.weather[0].description,
+    windSpeed: weather.wind.speed,
+    windDirection: weather.wind.deg,
+    visibility: weather.visibility / 1000,
+    humidity: weather.main.humidity,
+  };
+  //console.log("report", report);
+  return report;
+}
 
 const Poi = {
   home: {
@@ -54,12 +75,21 @@ const Poi = {
 
   viewPoi: {
     handler: async function (request, h) {
-      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
-      console.log("poi: ", poi);
-      return h.view("poi", {
-        title: "Viewing Point of Interest",
-        poi: poi,
-      });
+      try {
+        const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+        const apiKey = process.env.api_key;
+        console.log("api: ", apiKey);
+        console.log("poi: ", poi);
+        const weather = await getWeather(poi);
+        console.log("Weather", weather);
+        return h.view("poi", {
+          title: "Viewing Point of Interest",
+          poi: poi,
+          weather: weather,
+        });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 
