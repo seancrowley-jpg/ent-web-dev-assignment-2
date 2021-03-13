@@ -17,9 +17,12 @@ module.exports = [
   { method: "GET", path: "/user-report", config: Poi.userReport },
   { method: "GET", path: "/deletePoi/{_id}", config: Poi.deletePoi },
   { method: "GET", path: "/poi/{_id}", config: Poi.viewPoi },
+  { method: "GET", path: "/user-poi/{_id}", config: Poi.viewUserPoi },
   { method: "GET", path: "/update-poi/{_id}", config: Poi.showUpdatePoi },
+  { method: "GET", path: "/deleteimage/{public_id}", config: Poi.deleteImage },
   { method: "POST", path: "/update-poi/{_id}", config: Poi.updatePoi },
   { method: "POST", path: "/add-poi", config: Poi.addPoi },
+  { method: "POST", path: "/uploadfile/{_id}", config: Poi.addImage },
 
   {
     method: "GET",

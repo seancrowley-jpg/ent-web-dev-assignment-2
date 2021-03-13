@@ -1,5 +1,7 @@
 const Walk = require("../models/poi");
 const User = require("../models/user");
+const Image = require("../models/image");
+const ImageStore = require("../utils/image-store");
 
 const Poi = {
   home: {
@@ -42,6 +44,7 @@ const Poi = {
         lon: data.lon,
         user: user._id,
         category: data.category,
+        image: [],
       });
       await newWalk.save();
       console.log(newWalk);
@@ -51,10 +54,21 @@ const Poi = {
 
   viewPoi: {
     handler: async function (request, h) {
-      const poi = await Walk.findById({ _id: request.params._id }).lean();
-      console.log(poi);
+      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+      console.log("poi: ", poi);
       return h.view("poi", {
         title: "Viewing Point of Interest",
+        poi: poi,
+      });
+    },
+  },
+
+  viewUserPoi: {
+    handler: async function (request, h) {
+      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+      console.log("poi: ", poi);
+      return h.view("user-poi", {
+        title: "Viewing Your Point of Interest",
         poi: poi,
       });
     },
@@ -87,6 +101,52 @@ const Poi = {
       poi.lon = poiEdit.lon;
       await poi.save();
       return h.redirect("/user-report");
+    },
+  },
+
+  addImage: {
+    handler: async function (request, h) {
+      try {
+        const file = request.payload.imagefile;
+        const poi = await Walk.findById({ _id: request.params._id });
+        if (Object.keys(file).length > 0) {
+          const result = await ImageStore.uploadImage(file);
+          const newImage = new Image({
+            url: result.url,
+            public_id: result.public_id,
+          });
+          await newImage.save();
+          console.log(poi);
+          await poi.image.push(newImage._id);
+          await poi.save();
+          return h.redirect("/user-report");
+        }
+        return h.view("report", {
+          title: "error",
+          error: "No file selected",
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    payload: {
+      multipart: true,
+      output: "data",
+      maxBytes: 209715200,
+      parse: true,
+    },
+  },
+
+  deleteImage: {
+    handler: async function (request, h) {
+      try {
+        const public_id = request.params.public_id;
+        await ImageStore.deleteImage(public_id);
+        await Image.find({ public_id: public_id }).remove();
+        return h.redirect("/user-report");
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };

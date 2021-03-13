@@ -1,5 +1,5 @@
 <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
-    {{> title-card title="Point of Interest Web App" subTitle="Point of Interest Details"}}
+    {{> title-card title="Point of Interest Web App" subTitle="Your Point of Interest Details"}}
     {{> main-menu }}
 </div>
 <div class="uk-container uk-margin">
@@ -14,6 +14,6 @@
 </div>
 <div class="uk-child-width-1-4@s uk-flex uk-flex-center" uk-grid uk-height-match="target: .uk-card">
     {{#each poi.image}}
-        {{> image-card}}
+        {{> image-card-delete}}
     {{/each}}
 </div>
