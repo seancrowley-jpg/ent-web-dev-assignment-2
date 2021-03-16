@@ -7,6 +7,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Added By</th>
+        <th>Category</th>
         <th>View</th>
         </thead>
         <tbody class="uk-text-left">
@@ -15,6 +16,7 @@
                 <td>{{name}}</td>
                 <td>{{description}}</td>
                 <td>{{user.firstName}} {{user.lastName}}</td>
+                <td>{{category}}</td>
                 <td><a href="poi/{{_id}}"><button class="uk-button uk-button-primary uk-button-small">View</button></a></td>
             </tr>
         {{/each}}
