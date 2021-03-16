@@ -58,6 +58,7 @@ const Poi = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id);
       const data = request.payload;
+      //console.log(data);
       const newWalk = new Walk({
         name: data.name,
         description: data.description,
@@ -174,6 +175,21 @@ const Poi = {
         await ImageStore.deleteImage(public_id);
         await Image.find({ public_id: public_id }).remove();
         return h.redirect("/user-report");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+
+  filterCategory: {
+    handler: async function (request, h) {
+      try {
+        const data = request.payload;
+        const pois = await Walk.find({ category: data.category }).populate("user").lean();
+        return h.view("report", {
+          title: "Update Point of Interest",
+          poi: pois,
+        });
       } catch (err) {
         console.log(err);
       }
