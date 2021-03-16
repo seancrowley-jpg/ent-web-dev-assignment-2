@@ -9,6 +9,7 @@
         <th>Latitude</th>
         <th>Longitude</th>
         <th>Category</th>
+        <th>Weather</th>
         </thead>
         <tbody class="uk-text-left">
         <tr>
@@ -17,6 +18,7 @@
             <td>{{poi.lat}}</td>
             <td>{{poi.lon}}</td>
             <td>{{poi.category}}</td>
+            <td>Feels Like: {{weather.feelsLike}}°C<br> Sky: {{weather.clouds}}</td>
         </tr>
         </tbody>
     </table>

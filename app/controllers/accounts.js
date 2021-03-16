@@ -2,6 +2,7 @@
 
 const User = require("../models/user");
 const Poi = require("../models/poi");
+const Image = require("../models/image");
 const Boom = require("@hapi/boom");
 
 const Accounts = {
@@ -68,6 +69,31 @@ const Accounts = {
     },
   },
 
+  showAdmin: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const users = await User.find().lean();
+        const pois = await Poi.find().populate("user").lean();
+        const userCount = await User.find().count();
+        const poiCount = await Poi.find().count();
+        const imageCount = await Image.find().count();
+        console.log("User Count:", userCount);
+        console.log("Poi Count: ", pois);
+        return h.view("admin-dashboard", {
+          title: "Admin Dashboard",
+          poi: pois,
+          user: users,
+          userCount: userCount,
+          poiCount: poiCount,
+          imageCount: imageCount,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+
   showSettings: {
     handler: async function (request, h) {
       try {
@@ -103,6 +129,21 @@ const Accounts = {
         return h.redirect("/");
       } catch (err) {
         return h.view("settings", { errors: [{ message: err.message }] });
+      }
+    },
+  },
+
+  adminDeleteUser: {
+    auth: false,
+    handler: async function (request, h) {
+      try {
+        const id = request.params._id;
+        const user = await User.findById(id);
+        await Poi.find({ user: user._id }).remove();
+        await user.remove();
+        return h.redirect("/admin-dashboard");
+      } catch (err) {
+        return h.view("admin-dashboard", { errors: [{ message: err.message }] });
       }
     },
   },

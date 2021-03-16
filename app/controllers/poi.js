@@ -2,6 +2,7 @@ const Walk = require("../models/poi");
 const User = require("../models/user");
 const Image = require("../models/image");
 const ImageStore = require("../utils/image-store");
+const Weather = require("../utils/weather");
 
 const Poi = {
   home: {
@@ -37,6 +38,7 @@ const Poi = {
       const id = request.auth.credentials.id;
       const user = await User.findById(id);
       const data = request.payload;
+      //console.log(data);
       const newWalk = new Walk({
         name: data.name,
         description: data.description,
@@ -54,22 +56,29 @@ const Poi = {
 
   viewPoi: {
     handler: async function (request, h) {
-      const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
-      console.log("poi: ", poi);
-      return h.view("poi", {
-        title: "Viewing Point of Interest",
-        poi: poi,
-      });
+      try {
+        const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
+        const weather = await Weather.getWeather(poi);
+        console.log("Weather", weather);
+        return h.view("poi", {
+          title: "Viewing Point of Interest",
+          poi: poi,
+          weather: weather,
+        });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 
   viewUserPoi: {
     handler: async function (request, h) {
       const poi = await Walk.findById({ _id: request.params._id }).populate("image").lean();
-      console.log("poi: ", poi);
+      const weather = await Weather.getWeather(poi);
       return h.view("user-poi", {
         title: "Viewing Your Point of Interest",
         poi: poi,
+        weather: weather,
       });
     },
   },
@@ -144,6 +153,21 @@ const Poi = {
         await ImageStore.deleteImage(public_id);
         await Image.find({ public_id: public_id }).remove();
         return h.redirect("/user-report");
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+
+  filterCategory: {
+    handler: async function (request, h) {
+      try {
+        const data = request.payload;
+        const pois = await Walk.find({ category: data.category }).populate("user").lean();
+        return h.view("report", {
+          title: "Update Point of Interest",
+          poi: pois,
+        });
       } catch (err) {
         console.log(err);
       }
