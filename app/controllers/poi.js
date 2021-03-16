@@ -185,7 +185,6 @@ const Poi = {
     handler: async function (request, h) {
       try {
         const data = request.payload;
-        console.log(data);
         const pois = await Walk.find({ category: data.category }).populate("user").lean();
         return h.view("report", {
           title: "Update Point of Interest",
