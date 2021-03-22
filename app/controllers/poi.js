@@ -122,6 +122,27 @@ const Poi = {
   },
 
   updatePoi: {
+    validate: {
+      payload: {
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        lat: Joi.number().required(),
+        lon: Joi.number().required(),
+        category: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("home", {
+            title: "Add-Poi error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function (request, h) {
       const poiEdit = request.payload;
       const poi = await Walk.findById({ _id: request.params._id });
