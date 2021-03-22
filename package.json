@@ -4,6 +4,7 @@
   "description": "point of interest web application",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,6 +17,9 @@
     "url": "https://github.com/seancrowley-jpg/ent-web-dev-assignment-1/issues"
   },
   "homepage": "https://github.com/seancrowley-jpg/ent-web-dev-assignment-1#readme",
+  "engines": {
+    "node": "v14.15.4"
+  },
   "dependencies": {
     "@hapi/boom": "^9.1.1",
     "@hapi/cookie": "^11.0.2",
