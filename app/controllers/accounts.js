@@ -4,6 +4,7 @@ const User = require("../models/user");
 const Poi = require("../models/poi");
 const Image = require("../models/image");
 const Boom = require("@hapi/boom");
+const Joi = require("@hapi/joi");
 
 const Accounts = {
   index: {
@@ -12,14 +13,36 @@ const Accounts = {
       return h.view("main", { title: "Point of Interest Web App" });
     },
   },
+
   showSignup: {
     auth: false,
     handler: function (request, h) {
       return h.view("signup", { title: "Sign up" });
     },
   },
+
   signup: {
     auth: false,
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("signup", {
+            title: "Sign up error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function (request, h) {
       try {
         const payload = request.payload;
@@ -106,6 +129,26 @@ const Accounts = {
     },
   },
   updateSettings: {
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("settings", {
+            title: "Sign up error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function (request, h) {
       const userEdit = request.payload;
       const id = request.auth.credentials.id;
