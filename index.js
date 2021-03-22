@@ -8,12 +8,12 @@ const Cookie = require("@hapi/cookie");
 require("./app/models/db");
 const env = require("dotenv");
 const ImageStore = require("./app/utils/image-store");
+const Joi = require("@hapi/joi");
 
 env.config();
 
 const server = Hapi.server({
-  port: 3000,
-  host: "localhost",
+  port: process.env.PORT || 3000,
 });
 
 const credentials = {
@@ -27,6 +27,7 @@ async function init() {
   await server.register(Vision);
   await server.register(Cookie);
   ImageStore.configure(credentials);
+  server.validator(require("@hapi/joi"));
   server.views({
     engines: {
       hbs: require("handlebars"),
