@@ -3,6 +3,7 @@ const User = require("../models/user");
 const Image = require("../models/image");
 const ImageStore = require("../utils/image-store");
 const Weather = require("../utils/weather");
+const Joi = require("@hapi/joi");
 
 const Poi = {
   home: {
@@ -34,11 +35,31 @@ const Poi = {
   },
 
   addPoi: {
+    validate: {
+      payload: {
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        lat: Joi.number().required(),
+        lon: Joi.number().required(),
+        category: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("home", {
+            title: "Add-Poi error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function (request, h) {
       const id = request.auth.credentials.id;
       const user = await User.findById(id);
       const data = request.payload;
-      //console.log(data);
       const newWalk = new Walk({
         name: data.name,
         description: data.description,
