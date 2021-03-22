@@ -108,6 +108,7 @@ const Poi = {
       poi.description = poiEdit.description;
       poi.lat = poiEdit.lat;
       poi.lon = poiEdit.lon;
+      poi.category = poiEdit.category;
       await poi.save();
       return h.redirect("/user-report");
     },
