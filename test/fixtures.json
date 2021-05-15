@@ -1,0 +1,26 @@
+{
+  "pois": [
+    {
+      "name": "GreenWay",
+      "description": "Walk by the River Suir",
+      "lat": 52.78,
+      "lon": -7.25,
+      "category": "Long Walk"
+    },
+    {
+      "name": "Ardmore Cliff Walk",
+      "description": "demo",
+      "lat": 45.8,
+      "lon": 56.7,
+      "category": "Cycle Path"
+    }
+    ],
+  "newPoi":
+  {
+    "name": "Annestown Walk",
+    "description": "demo2",
+    "lat": 47.78,
+    "lon": -2.96,
+    "category": "Short Walk"
+  }
+}

@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const axios = require("axios");
 const baseUrl = "http://localhost:3000";
@@ -23,7 +23,7 @@ class PoiWebService {
     }
 
     async createPoi(newPoi) {
-        const response = await axios.post(this.baseUrl + "/api/pois/" + newPoi);
+        const response = await axios.post(this.baseUrl + "/api/pois" , newPoi);
         return response.data;
     }
 
