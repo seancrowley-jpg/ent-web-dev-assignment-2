@@ -7,13 +7,13 @@ suite("POI API tests", function () {
     test("get pois", async function () {
         const response = await axios.get("http://localhost:3000/api/pois");
         const pois = response.data;
-        assert.equal(4, pois.length);
+        assert.equal(2, pois.length);
     })
 
     test("get one POI", async function () {
         let response = await axios.get("http://localhost:3000/api/pois")
         const pois = response.data;
-        assert.equal(4, pois.length);
+        assert.equal(2, pois.length);
 
         const onePoiUrl = "http://localhost:3000/api/pois/" + pois[0]._id;
         response = await  axios.get(onePoiUrl);
@@ -40,5 +40,34 @@ suite("POI API tests", function () {
         assert.equal(returnedPoi.name, "Cliff Walk");
         assert.equal(returnedPoi.description, "demo2")
         assert.equal(returnedPoi.category, "Cycle Path")
+    })
+
+    test("delete a POI", async function () {
+        let response = await axios.get("http://localhost:3000/api/pois")
+        let pois = response.data;
+        const originalSize = pois.length;
+
+        const onePoiUrl = "http://localhost:3000/api/pois/" + pois[2]._id;
+        response = await axios.get(onePoiUrl)
+        const onePOI = response.data;
+        assert.equal(onePOI.name, "Cliff Walk");
+
+        response = await axios.delete("http://localhost:3000/api/pois/" + pois[2]._id);
+        assert.equal(response.data.success, true);
+
+        response = await axios.get("http://localhost:3000/api/pois");
+        pois = response.data;
+        assert.equal(pois.length, originalSize -1);
+    })
+
+    test("delete all pois", async function () {
+        let response = await axios.get("http://localhost:3000/api/pois")
+        let pois = response.data;
+        const originalSize = pois.length;
+        assert(originalSize > 0);
+        response = await axios.delete("http://localhost:3000/api/pois");
+        response = await  axios.get("http://localhost:3000/api/pois");
+        pois = response.data;
+        assert.equal(pois.length, 0);
     })
 })
