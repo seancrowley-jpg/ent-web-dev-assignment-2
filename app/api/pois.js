@@ -26,6 +26,37 @@ const  Pois = {
             }
         },
     },
+
+    create: {
+        auth: false,
+        handler: async function (request, h) {
+            const newPoi = new Poi(request.payload);
+            const poi = await newPoi.save();
+            if (poi) {
+                return h.response(poi).code(201);
+            }
+            return Boom.badImplementation("Error creating new POI");
+        },
+    },
+
+    deleteAll: {
+        auth: false,
+        handler: async function (request, h) {
+            await Poi.remove({});
+            return { success: true};
+        },
+    },
+
+    deleteOne: {
+        auth: false,
+        handler: async function (request, h) {
+            const poi = await Poi.remove({_id: request.params.id});
+            if (poi) {
+                return { success: true};
+            }
+            return Boom.notFound("ID not found")
+        }
+    }
 };
 
 module.exports = Pois;
