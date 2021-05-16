@@ -1,5 +1,6 @@
 const Pois = require('./app/api/pois');
-const Users = require("./app/api/users")
+const Users = require("./app/api/users");
+const Images = require("./app/api/images");
 
 module.exports = [
     { method: 'GET', path: '/api/pois', config: Pois.find },
@@ -13,5 +14,6 @@ module.exports = [
     { method: "POST", path: "/api/users", config: Users.create },
     { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
     { method: "DELETE", path: "/api/users", config: Users.deleteAll },
-    
+
+    { method: "GET", path: "/api/images", config: Images.findAll},
 ]
