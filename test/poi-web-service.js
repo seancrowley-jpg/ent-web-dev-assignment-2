@@ -56,6 +56,24 @@ class PoiWebService {
         const response = await axios.post(this.baseUrl + "/api/users", newUser);
         return response.data;
     }
+
+    async deleteAllUsers() {
+        try {
+            const response = await axios.delete(this.baseUrl + "/api/users");
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteOneUser(id) {
+        try {
+            const response = await axios.delete(this.baseUrl + "/api/users/" + id);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 
 module.exports = PoiWebService;
