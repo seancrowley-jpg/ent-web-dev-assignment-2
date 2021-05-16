@@ -23,7 +23,7 @@
     "lon": -2.96,
     "category": "Short Walk"
   },
-  "donationService": "http://localhost:3000",
+  "poiWebService": "http://localhost:3000",
   "users": [
     {
       "firstName": "Homer",

@@ -47,7 +47,7 @@ suite("POI API tests", function () {
     //For loop creates pois for the amount of pois in the fixtures file
     //allPois variable call getPois which calls the API
     //The length of the two are compared to assert that all the pois are actually returned
-    test("get all candidates", async function () {
+    test("get all pois", async function () {
         for (let poi of pois) {
             await poiWebService.createPoi(poi);
         }
