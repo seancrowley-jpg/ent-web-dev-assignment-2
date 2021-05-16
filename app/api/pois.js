@@ -50,8 +50,8 @@ const  Pois = {
     deleteOne: {
         auth: false,
         handler: async function (request, h) {
-            const poi = await Poi.remove({_id: request.params.id});
-            if (poi) {
+            const response = await Poi.deleteOne({_id: request.params.id});
+            if (response.deletedCount == 1) {
                 return { success: true};
             }
             return Boom.notFound("ID not found")

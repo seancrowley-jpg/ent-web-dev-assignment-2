@@ -1,0 +1,53 @@
+{
+  "pois": [
+    {
+      "name": "GreenWay",
+      "description": "Walk by the River Suir",
+      "lat": 52.78,
+      "lon": -7.25,
+      "category": "Long Walk"
+    },
+    {
+      "name": "Ardmore Cliff Walk",
+      "description": "demo",
+      "lat": 45.8,
+      "lon": 56.7,
+      "category": "Cycle Path"
+    }
+    ],
+  "newPoi":
+  {
+    "name": "Annestown Walk",
+    "description": "demo2",
+    "lat": 47.78,
+    "lon": -2.96,
+    "category": "Short Walk"
+  },
+  "donationService": "http://localhost:3000",
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Marge",
+      "lastName": "Simpson",
+      "email": "marge@simpson.com",
+      "password": "secret"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  ],
+  "newUser": {
+    "firstName": "Maggie",
+    "lastName": "Simpson",
+    "email": "maggie@simpson.com",
+    "password": "secret"
+  }
+}
