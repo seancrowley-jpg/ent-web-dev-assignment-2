@@ -16,4 +16,8 @@ module.exports = [
     { method: "DELETE", path: "/api/users", config: Users.deleteAll },
 
     { method: "GET", path: "/api/images", config: Images.findAll},
+    { method: "GET", path: "/api/images/{id}", config: Images.findOne},
+    { method: "POST", path: "/api/images/{id}", config: Images.AddImage},
+    { method: "DELETE", path: "/api/images", config: Images.deleteAll},
+    { method: "DELETE", path: "/api/images/{id}", config: Images.deleteOne},
 ]
