@@ -49,5 +49,15 @@
     "lastName": "Simpson",
     "email": "maggie@simpson.com",
     "password": "secret"
-  }
+  },
+  "images": [
+    {
+      "url": "http://res.cloudinary.com/dqta24ole/image/upload/v1621174682/ut7ozth92tnbxy8mybuc.jpg",
+      "public_id": "ut7ozth92tnbxy8mybuc"
+    },
+    {
+      "url": "http://res.cloudinary.com/dqta24ole/image/upload/v1621086193/zuqlp1toogyvidmy8qqy.jpg",
+      "public_id": "zuqlp1toogyvidmy8qqy"
+    }
+  ]
 }
