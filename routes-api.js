@@ -12,8 +12,10 @@ module.exports = [
     { method: "GET", path: "/api/users", config: Users.find },
     { method: "GET", path: "/api/users/{id}", config: Users.findOne },
     { method: "POST", path: "/api/users", config: Users.create },
+    { method: "POST", path: "/api/users/authenticate", config: Users.authenticate },
     { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
     { method: "DELETE", path: "/api/users", config: Users.deleteAll },
+
 
     { method: "GET", path: "/api/images", config: Images.findAll},
     { method: "GET", path: "/api/images/{id}", config: Images.findOne},
