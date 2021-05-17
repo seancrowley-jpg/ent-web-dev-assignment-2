@@ -73,6 +73,42 @@ class PoiWebService {
             return null;
         }
     }
+
+    async getImages() {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/images/");
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async getOneImage(id) {
+        try {
+            const response = await axios.get(this.baseUrl + "/api/images/" + id);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteAllImages() {
+        try {
+            const response = await axios.delete(this.baseUrl + "/api/images");
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async addImage(id, image) {
+        try {
+            const response = await axios.post(this.baseUrl + "/api/images/" + id , image);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 
 module.exports = PoiWebService;

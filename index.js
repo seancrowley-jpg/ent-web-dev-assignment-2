@@ -13,7 +13,8 @@ const Joi = require("@hapi/joi");
 env.config();
 
 const server = Hapi.server({
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 4000,
+  routes: { cors: true },
 });
 
 const credentials = {

@@ -42,7 +42,7 @@ const Images = {
         auth: false,
         handler: async function (request, h) {
             const file = request.payload.imagefile;
-            const poi = await Walk.findById({_id: request.params._id});
+            const poi = await Poi.findById({_id: request.params._id});
             if (Object.keys(file).length > 0) {
                 const result = await ImageStore.uploadImage(file);
                 const newImage = new Image({
