@@ -68,7 +68,8 @@ const Users = {
                 } else if (user.password !== request.payload.password) {
                     return Boom.unauthorized("Invalid password");
                 } else {
-                    return user;
+                    const token = utils.createToken(user);
+                    return h.response({ success: true, token: token }).code(201);
                 }
             } catch (err) {
                 return Boom.notFound("internal db failure");
