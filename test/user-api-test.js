@@ -11,12 +11,15 @@ suite("User API tests", function () {
 
     const poiWebService= new PoiWebService(fixtures.poiWebService)
 
-    setup(async function () {
+    suiteSetup(async function () {
         await poiWebService.deleteAllUsers();
+        const returnedUser = await poiWebService.createUser(newUser);
+        const response = await poiWebService    .authenticate(newUser);
     });
 
-    teardown(async function () {
+    suiteTeardown(async function () {
         await poiWebService.deleteAllUsers();
+        poiWebService.clearAuth();
     });
 
     test("create a user", async function () {
@@ -47,19 +50,32 @@ suite("User API tests", function () {
     });
 
     test("get all users", async function () {
+        await poiWebService.deleteAllUsers();
+        await poiWebService.createUser(newUser);
+        await poiWebService.authenticate(newUser);
         for (let u of users) {
             await poiWebService.createUser(u);
         }
 
         const allUsers = await poiWebService.getUsers();
-        assert.equal(allUsers.length, users.length);
+        assert.equal(allUsers.length, users.length + 1);
     });
 
     test("get users detail", async function () {
+        await poiWebService.deleteAllUsers();
+        const user = await poiWebService.createUser(newUser);
+        await poiWebService.authenticate(newUser);
         for (let u of users) {
             await poiWebService.createUser(u);
         }
 
+        const testUser = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            password: user.password,
+        };
+        users.unshift(testUser);
         const allUsers = await poiWebService.getUsers();
         for (var i = 0; i < users.length; i++) {
             assert(_.some([allUsers[i]], users[i]), "returnedUser must be a superset of newUser");
@@ -67,7 +83,10 @@ suite("User API tests", function () {
     });
 
     test("get all users empty", async function () {
+        await poiWebService.deleteAllUsers();
+        const user = await poiWebService.createUser(newUser);
+        await poiWebService.authenticate(newUser);
         const allUsers = await poiWebService.getUsers();
-        assert.equal(allUsers.length, 0);
+        assert.equal(allUsers.length, 1);
     });
 });
