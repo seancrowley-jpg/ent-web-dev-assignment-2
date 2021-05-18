@@ -10,7 +10,7 @@ suite("POI API tests", function () {
     let pois = fixtures.pois
     let newPoi = fixtures.newPoi
 
-    const poiWebService = new PoiWebService("http://localhost:3000")
+    const poiWebService = new PoiWebService("http://localhost:4000")
 
     setup(async function () {
         await poiWebService.deleteAllPois();
