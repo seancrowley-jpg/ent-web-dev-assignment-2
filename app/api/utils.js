@@ -18,3 +18,12 @@ exports.decodeToken = function (token) {
 
     return userInfo;
 };
+
+exports.validate = async function (decoded, request) {
+    const user = await User.findOne({ _id: decoded.id });
+    if (!user) {
+        return { isValid: false };
+    } else {
+        return { isValid: true };
+    }
+};
