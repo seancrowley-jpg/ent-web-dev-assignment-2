@@ -92,7 +92,7 @@ const Users = {
         },
         handler: async function (request, h) {
             const userEdit = request.payload;
-            const user = await User.findById(userEdit._id);
+            const user = await User.findById(utils.getUserIdFromRequest(request));
             user.firstName = userEdit.firstName;
             user.lastName = userEdit.lastName;
             user.email = userEdit.email;
