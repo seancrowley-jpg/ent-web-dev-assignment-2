@@ -9,9 +9,9 @@ suite("POI API tests", function () {
 
     let pois = fixtures.pois
     let newPoi = fixtures.newPoi
-
-    const poiWebService = new PoiWebService("http://localhost:4000");
     let newUser = fixtures.newUser;
+
+    const poiWebService = new PoiWebService(fixtures.poiWebService);
 
     suiteSetup(async function () {
         await poiWebService.deleteAllUsers();
@@ -28,7 +28,7 @@ suite("POI API tests", function () {
     });
 
     teardown(async function () {
-        await poiWebService.deleteAllPois();
+
     });
 
     //Creates a Poi and compares it against the new poi in the fixtures file

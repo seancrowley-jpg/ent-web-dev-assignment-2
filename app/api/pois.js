@@ -2,8 +2,9 @@
 
 const Poi = require('../models/poi');
 const Boom = require("@hapi/boom");
+const utils = require("./utils");
 
-const  Pois = {
+const Pois = {
     find: {
         auth: {
             strategy: "jwt",
@@ -36,8 +37,10 @@ const  Pois = {
             strategy: "jwt",
         },
         handler: async function (request, h) {
-            const newPoi = new Poi(request.payload);
-            const poi = await newPoi.save();
+            const userId = utils.getUserIdFromRequest(request);
+            let poi = new Poi(request.payload);
+            poi.user = userId;
+            poi = await poi.save();
             if (poi) {
                 return h.response(poi).code(201);
             }

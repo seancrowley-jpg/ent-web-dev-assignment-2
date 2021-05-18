@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const User = require("../models/user")
 
 exports.createToken = function (user) {
     return jwt.sign({ id: user._id, email: user.email }, 'secretpasswordnotrevealedtoanyone', {
@@ -26,4 +27,17 @@ exports.validate = async function (decoded, request) {
     } else {
         return { isValid: true };
     }
+};
+
+exports.getUserIdFromRequest = function (request) {
+    var userId = null;
+    try {
+        const authorization = request.headers.authorization;
+        var token = authorization.split(" ")[1];
+        var decodedToken = jwt.verify(token, "secretpasswordnotrevealedtoanyone");
+        userId = decodedToken.id;
+    } catch (e) {
+        userId = null;
+    }
+    return userId;
 };
