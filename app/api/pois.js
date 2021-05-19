@@ -32,6 +32,23 @@ const Pois = {
         },
     },
 
+    findUserPOIs: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            try {
+                const pois = await Poi.find({user : utils.getUserIdFromRequest(request)}).populate("user");
+                if (!pois) {
+                    return Boom.notFound("No POIs with this ID");
+                }
+                return pois;
+            } catch (err) {
+                return Boom.notFound("No POIs with this ID");
+            }
+        },
+    },
+
     create: {
         auth: {
             strategy: "jwt",
