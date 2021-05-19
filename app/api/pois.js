@@ -65,6 +65,26 @@ const Pois = {
         },
     },
 
+    editPoi: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            const poiEdit = request.payload;
+            const poi = await Poi.findById({ _id: request.params.id }).populate("image").populate("user");
+            poi.name = poiEdit.name;
+            poi.description = poiEdit.description;
+            poi.lat = poiEdit.lat;
+            poi.lon = poiEdit.lon;
+            poi.category = poiEdit.category;
+            await poi.save();
+            if (poi) {
+                return { success: true };
+            }
+            return Boom.notFound("Id not found");
+        },
+    },
+
     deleteAll: {
         auth: {
             strategy: "jwt",
