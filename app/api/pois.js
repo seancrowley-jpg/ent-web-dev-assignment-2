@@ -21,7 +21,7 @@ const Pois = {
         },
         handler: async function (request, h) {
             try {
-                const poi = await Poi.findOne({ _id: request.params.id });
+                const poi = await Poi.findById({ _id: request.params.id }).populate("image").populate("user");
                 if (!poi) {
                     return Boom.notFound("No POI with this ID");
                 }
