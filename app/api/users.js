@@ -62,6 +62,7 @@ const Users = {
         handler: async function (request, h) {
             const user = await User.findById(utils.getUserIdFromRequest(request));
             await Poi.find({ user: user._id }).remove();
+            await user.remove();
             if (user) {
                 return { success: true };
             }
