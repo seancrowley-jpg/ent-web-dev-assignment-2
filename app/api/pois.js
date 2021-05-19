@@ -38,7 +38,7 @@ const Pois = {
         },
         handler: async function (request, h) {
             try {
-                const pois = await Poi.find({user : request.params._id}).populate("user");
+                const pois = await Poi.find({user : utils.getUserIdFromRequest(request)}).populate("user");
                 if (!pois) {
                     return Boom.notFound("No POIs with this ID");
                 }
