@@ -1,6 +1,7 @@
 "use strict"
 
 const User = require("../models/user");
+const Poi = require("../models/poi");
 const Boom = require("@hapi/boom");
 const utils = require("./utils");
 
@@ -59,7 +60,8 @@ const Users = {
             strategy: "jwt",
         },
         handler: async function (request, h) {
-            const user = await User.deleteOne({ _id: request.params.id });
+            const user = await User.findById(utils.getUserIdFromRequest(request));
+            await Poi.find({ user: user._id }).remove();
             if (user) {
                 return { success: true };
             }
