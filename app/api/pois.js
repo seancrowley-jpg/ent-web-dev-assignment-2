@@ -3,6 +3,7 @@
 const Poi = require('../models/poi');
 const Boom = require("@hapi/boom");
 const utils = require("./utils");
+const Weather = require("../utils/weather");
 
 const Pois = {
     find: {
@@ -105,6 +106,17 @@ const Pois = {
                 return { success: true};
             }
             return Boom.notFound("ID not found")
+        }
+    },
+
+    getWeather: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            const poi = await Poi.findById({ _id: request.params.id });
+            const report = await Weather.getWeather(poi);
+            return report;
         }
     }
 };

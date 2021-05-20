@@ -5,6 +5,7 @@ const Images = require("./app/api/images");
 module.exports = [
     { method: 'GET', path: '/api/pois', config: Pois.find },
     { method: 'GET', path: '/api/pois/{id}', config: Pois.findOne },
+    { method: 'GET', path: '/api/pois/{id}/weather', config: Pois.getWeather },
     { method: 'GET', path: '/api/pois/userpois/{id}', config: Pois.findUserPOIs },
     { method: "POST", path: "/api/pois", config: Pois.create },
     { method: "PUT", path: "/api/pois/{id}", config: Pois.editPoi },
