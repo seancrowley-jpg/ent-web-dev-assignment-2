@@ -152,6 +152,8 @@ const Pois = {
     deleteImage: {
         auth: false,
         handler: async function (request, h) {
+            let public_id = request.params.public_id
+            await ImageStore.deleteImage(public_id);
             const response = await Image.deleteOne({public_id: request.params.public_id});
             if (response.deletedCount == 1) {
                 return { success: true};
