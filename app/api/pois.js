@@ -4,6 +4,7 @@ const Poi = require('../models/poi');
 const Boom = require("@hapi/boom");
 const utils = require("./utils");
 const Weather = require("../utils/weather");
+const Image = require("../models/image")
 const ImageStore = require("../utils/image-store");
 
 const Pois = {
@@ -138,11 +139,24 @@ const Pois = {
                 console.log(poi);
                 await poi.image.push(newImage._id);
                 await poi.save();
-                if (poi) {
-                    return h.response(poi).code(201);
-                }
-                return Boom.badImplementation("Error adding new POI");
             }
+        },
+        payload: {
+            multipart: true,
+            output: "data",
+            maxBytes: 209715200,
+            parse: true,
+        },
+    },
+
+    deleteImage: {
+        auth: false,
+        handler: async function (request, h) {
+            const response = await Image.deleteOne({public_id: request.params.public_id});
+            if (response.deletedCount == 1) {
+                return { success: true};
+            }
+            return Boom.notFound("ID not found")
         }
     }
 };

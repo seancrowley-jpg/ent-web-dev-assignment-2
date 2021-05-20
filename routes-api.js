@@ -12,6 +12,8 @@ module.exports = [
     { method: "PUT", path: "/api/pois/{id}", config: Pois.editPoi },
     { method: "DELETE", path: "/api/pois/{id}", config: Pois.deleteOne },
     { method: "DELETE", path: "/api/pois", config: Pois.deleteAll },
+    { method: "DELETE", path: "/api/pois/{public_id}/image", config: Pois.deleteImage },
+
 
     { method: "GET", path: "/api/users", config: Users.find },
     { method: "GET", path: "/api/users/{id}", config: Users.findOne },
