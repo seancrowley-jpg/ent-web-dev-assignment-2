@@ -160,6 +160,7 @@ const Poi = {
     handler: async function (request, h) {
       try {
         const file = request.payload.imagefile;
+        console.log(file);
         const poi = await Walk.findById({ _id: request.params._id });
         if (Object.keys(file).length > 0) {
           const result = await ImageStore.uploadImage(file);

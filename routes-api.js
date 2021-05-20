@@ -8,6 +8,7 @@ module.exports = [
     { method: 'GET', path: '/api/pois/{id}/weather', config: Pois.getWeather },
     { method: 'GET', path: '/api/pois/userpois/{id}', config: Pois.findUserPOIs },
     { method: "POST", path: "/api/pois", config: Pois.create },
+    { method: "POST", path: "/api/pois/{id}", config: Pois.addImage },
     { method: "PUT", path: "/api/pois/{id}", config: Pois.editPoi },
     { method: "DELETE", path: "/api/pois/{id}", config: Pois.deleteOne },
     { method: "DELETE", path: "/api/pois", config: Pois.deleteAll },

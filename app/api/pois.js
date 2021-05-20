@@ -4,6 +4,7 @@ const Poi = require('../models/poi');
 const Boom = require("@hapi/boom");
 const utils = require("./utils");
 const Weather = require("../utils/weather");
+const ImageStore = require("../utils/image-store");
 
 const Pois = {
     find: {
@@ -117,6 +118,31 @@ const Pois = {
             const poi = await Poi.findById({ _id: request.params.id });
             const report = await Weather.getWeather(poi);
             return report;
+        }
+    },
+
+    addImage: {
+        auth: false,
+        handler: async function (request, h) {
+            let file = request.payload.imagefile;
+            console.log(file);
+            const poi = await Poi.findById({_id: request.params.id});
+            console.log(poi);
+            if (Object.keys(file).length > 0) {
+                const result = await ImageStore.uploadImage(file);
+                const newImage = new Image({
+                    url: result.url,
+                    public_id: result.public_id,
+                });
+                await newImage.save();
+                console.log(poi);
+                await poi.image.push(newImage._id);
+                await poi.save();
+                if (poi) {
+                    return h.response(poi).code(201);
+                }
+                return Boom.badImplementation("Error adding new POI");
+            }
         }
     }
 };
