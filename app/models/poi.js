@@ -22,7 +22,7 @@ const poiSchema = new Schema({
   reviews: [
     {
       writtenBy: String,
-      review: String
+      review: String,
     }
   ]
 });
