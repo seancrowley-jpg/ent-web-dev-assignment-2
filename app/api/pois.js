@@ -1,6 +1,7 @@
 'use strict';
 
 const Poi = require('../models/poi');
+const User = require('../models/user');
 const Boom = require("@hapi/boom");
 const utils = require("./utils");
 const Weather = require("../utils/weather");
@@ -155,7 +156,9 @@ const Pois = {
     },
 
     deleteImage: {
-        auth: false,
+        auth: {
+            strategy: "jwt",
+        },
         handler: async function (request, h) {
             let public_id = request.params.public_id
             await ImageStore.deleteImage(public_id);
@@ -164,6 +167,32 @@ const Pois = {
                 return { success: true};
             }
             return Boom.notFound("ID not found")
+        }
+    },
+
+    addReview: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            try {
+                const review = request.payload;
+                console.log(review)
+                const poi = await Poi.findById({_id: request.params.id}).populate("image").populate("user");
+                console.log(poi);
+                const userId = utils.getUserIdFromRequest(request);
+                const user = await User.findById({_id: userId});
+                let newReview = {
+                    writtenBy: user.firstName + " " + user.lastName,
+                    review: review.review
+                }
+                console.log(newReview)
+                poi.reviews.push(newReview);
+                await poi.save();
+                return { success: true};
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 };
