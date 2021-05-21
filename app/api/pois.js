@@ -6,6 +6,7 @@ const utils = require("./utils");
 const Weather = require("../utils/weather");
 const Image = require("../models/image")
 const ImageStore = require("../utils/image-store");
+const fs = require("fs");
 
 const Pois = {
     find: {
@@ -125,20 +126,23 @@ const Pois = {
     addImage: {
         auth: false,
         handler: async function (request, h) {
-            let file = request.payload.imagefile;
-            console.log(file);
-            const poi = await Poi.findById({_id: request.params.id});
-            console.log(poi);
-            if (Object.keys(file).length > 0) {
-                const result = await ImageStore.uploadImage(file);
-                const newImage = new Image({
-                    url: result.url,
-                    public_id: result.public_id,
-                });
-                await newImage.save();
-                console.log(poi);
-                await poi.image.push(newImage._id);
-                await poi.save();
+            try {
+                const file = request.payload.imagefile;
+                console.log(file);
+                const poi = await Walk.findById({_id: request.params._id});
+                if (Object.keys(file).length > 0) {
+                    const result = await ImageStore.uploadImage(file);
+                    const newImage = new Image({
+                        url: result.url,
+                        public_id: result.public_id,
+                    });
+                    await newImage.save();
+                    console.log(poi);
+                    await poi.image.push(newImage._id);
+                    await poi.save();
+                }
+            } catch (err) {
+                console.log(err);
             }
         },
         payload: {

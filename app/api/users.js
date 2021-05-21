@@ -70,6 +70,21 @@ const Users = {
         },
     },
 
+    deleteAdmin: {
+        auth: {
+            strategy: "jwt",
+        },
+        handler: async function (request, h) {
+            const user = await User.findOne({ _id: request.params.id });
+            await Poi.find({ user: user._id }).remove();
+            await user.remove();
+            if (user) {
+                return { success: true };
+            }
+            return Boom.notFound("id not found");
+        },
+    },
+
     authenticate: {
         auth: false,
         handler: async function (request, h) {

@@ -21,6 +21,7 @@ module.exports = [
     { method: "POST", path: "/api/users/authenticate", config: Users.authenticate },
     { method: "PUT", path: "/api/users/{id}", config: Users.update },
     { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
+    { method: "DELETE", path: "/api/admin/users/{id}", config: Users.deleteAdmin },
     { method: "DELETE", path: "/api/users", config: Users.deleteAll },
 
 
