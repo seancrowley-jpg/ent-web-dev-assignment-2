@@ -19,6 +19,12 @@ const poiSchema = new Schema({
       ref: "Image",
     },
   ],
+  reviews: [
+    {
+      writtenBy: String,
+      review: String
+    }
+  ]
 });
 
 module.exports = Mongoose.model("Poi", poiSchema);
