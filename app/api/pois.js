@@ -124,14 +124,15 @@ const Pois = {
     },
 
     addImage: {
-        auth: false,
+        auth: {
+            strategy: "jwt",
+        },
         handler: async function (request, h) {
             try {
-                const file = request.payload;
-                console.log(request);
+                const file = request.payload.imagefile;
+                //console.log(request);
                 console.log(file);
                 const poi = await Poi.findById({_id: request.params.id});
-                if (Object.keys(file).length > 0) {
                     const result = await ImageStore.uploadImage(file);
                     const newImage = new Image({
                         url: result.url,
@@ -141,7 +142,6 @@ const Pois = {
                     console.log(poi);
                     await poi.image.push(newImage._id);
                     await poi.save();
-                }
             } catch (err) {
                 console.log(err);
             }
