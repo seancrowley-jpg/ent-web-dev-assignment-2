@@ -95,4 +95,13 @@ suite("User API tests", function () {
         const allUsers = await poiWebService.getUsers();
         assert.equal(allUsers.length, 1);
     });
+
+    test("update user", async function () {
+        const user = await poiWebService.createUser(newUser);
+        console.log(user);
+        const edit = fixtures.users[2];
+        await poiWebService.updateUser(user._id, edit)
+        console.log(user);
+        assert.equal(user.email, edit.email)
+    })
 });

@@ -92,4 +92,27 @@ suite("POI API tests", function () {
         const allPOis = await poiWebService.getPois();
         assert.equal(allPOis.length, 0);
     });
+
+    // test that checks if reviews added to pois are the same
+    test("add review" , async function() {
+        const poi1 = await poiWebService.createPoi(newPoi)
+        const poi2 = await poiWebService.createPoi(newPoi)
+        const review = fixtures.review[0];
+        await poiWebService.addReview(poi1._id, review);
+        await poiWebService.addReview(poi2._id, review);
+        assert.deepEqual(poi1.reviews, poi2.reviews);
+        await poiWebService.deleteAllPois();
+    })
+    //edit API call completes after test is finished
+    //database shows that the poi is updated.
+    test("edit poi", async function() {
+        const poi1 = await poiWebService.createPoi(newPoi);
+        const poi2 = await poiWebService.createPoi(fixtures.poiEdit);
+        console.log(poi1);
+        console.log(poi2);
+        const edit = fixtures.poiEdit;
+        await poiWebService.editPoi(poi1._id, edit)
+        console.log(poi1)
+        assert.deepEqual(poi1,name, poi2.name)
+    })
 })

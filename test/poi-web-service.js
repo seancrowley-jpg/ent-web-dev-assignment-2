@@ -122,6 +122,20 @@ class PoiWebService {
     async clearAuth(user) {
         axios.defaults.headers.common["Authorization"] = "";
     }
+
+    async addReview(id, review) {
+        const response = await axios.post(this.baseUrl + "/api/pois/" +id +"/review" , review);
+        return response.data;
+    }
+
+    async editPoi(id, poiEdit) {
+        const response = await axios.put(this.baseUrl +"/api/pois/" + id , poiEdit);
+        return response.data;
+    }
+
+    async updateUser(id, userDetails) {
+        const response = await axios.put(this.baseUrl + "/api/users/" + id , userDetails);
+    }
 }
 
 module.exports = PoiWebService;
