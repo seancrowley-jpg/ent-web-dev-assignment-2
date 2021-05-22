@@ -11,20 +11,24 @@ suite("User API tests", function () {
 
     const poiWebService= new PoiWebService(fixtures.poiWebService)
 
-    suiteSetup(async function () {
+    setup(async function () {
         await poiWebService.deleteAllUsers();
         const returnedUser = await poiWebService.createUser(newUser);
-        const response = await poiWebService    .authenticate(newUser);
+        const response = await poiWebService.authenticate(newUser);
     });
 
-    suiteTeardown(async function () {
+    teardown(async function () {
         await poiWebService.deleteAllUsers();
         poiWebService.clearAuth();
     });
 
+
     test("create a user", async function () {
         const returnedUser = await poiWebService.createUser(newUser);
-        assert(_.some([returnedUser], newUser), "returnedUser must be a superset of newUser");
+        await poiWebService.authenticate(returnedUser);
+        const u = newUser;
+        u.password = returnedUser.password;
+        assert(_.some([returnedUser], u), "returnedUser must be a superset of newUser");
         assert.isDefined(returnedUser._id);
     });
 
@@ -68,7 +72,6 @@ suite("User API tests", function () {
         for (let u of users) {
             await poiWebService.createUser(u);
         }
-
         const testUser = {
             firstName: user.firstName,
             lastName: user.lastName,
@@ -77,6 +80,9 @@ suite("User API tests", function () {
         };
         users.unshift(testUser);
         const allUsers = await poiWebService.getUsers();
+        for (var i = 0; i < users.length; i++) { //Loop changes user passwords so they match the hashed passwords
+            users[i].password = allUsers[i].password
+        }
         for (var i = 0; i < users.length; i++) {
             assert(_.some([allUsers[i]], users[i]), "returnedUser must be a superset of newUser");
         }

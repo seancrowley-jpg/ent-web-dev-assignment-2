@@ -42,7 +42,8 @@ suite("POI API tests", function () {
     //Creates a new poi, then the get method is used on new poi. Pois are then
     //compared to ensure they are equal
     test("get poi", async function () {
-        const poi1 = await poiWebService.createPoi(newPoi);
+        const poi = await poiWebService.createPoi(newPoi);
+        const poi1 = await poiWebService.getPoi(poi._id);
         const poi2 = await poiWebService.getPoi(poi1._id);
         assert.deepEqual(poi1, poi2);
     });
