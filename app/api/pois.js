@@ -8,6 +8,7 @@ const Weather = require("../utils/weather");
 const Image = require("../models/image")
 const ImageStore = require("../utils/image-store");
 const fs = require("fs");
+const sanitizeHtml = require("sanitize-html");
 
 const Pois = {
     find: {
@@ -62,6 +63,7 @@ const Pois = {
             const userId = utils.getUserIdFromRequest(request);
             let poi = new Poi(request.payload);
             poi.user = userId;
+            sanitizeHtml(poi)
             poi = await poi.save();
             if (poi) {
                 return h.response(poi).code(201);
@@ -77,6 +79,7 @@ const Pois = {
         handler: async function (request, h) {
             const poiEdit = request.payload;
             const poi = await Poi.findById({ _id: request.params.id }).populate("image").populate("user");
+            sanitizeHtml(poiEdit);
             poi.name = poiEdit.name;
             poi.description = poiEdit.description;
             poi.lat = poiEdit.lat;
@@ -177,6 +180,7 @@ const Pois = {
         handler: async function (request, h) {
             try {
                 const review = request.payload;
+                sanitizeHtml(review)
                 console.log(review)
                 const poi = await Poi.findById({_id: request.params.id}).populate("image").populate("user");
                 console.log(poi);

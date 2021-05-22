@@ -6,6 +6,7 @@ const Boom = require("@hapi/boom");
 const utils = require("./utils");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+let sanitizeHtml = require("sanitize-html");
 
 const Users = {
     find: {
@@ -41,6 +42,7 @@ const Users = {
             const newUser = new User(request.payload);
             const hash = await bcrypt.hash(newUser.password, saltRounds);
             newUser.password = hash
+            sanitizeHtml(newUser)
             const user = await newUser.save();
             if (user) {
                 return h.response(user).code(201);
@@ -120,6 +122,7 @@ const Users = {
             user.lastName = userEdit.lastName;
             user.email = userEdit.email;
             user.password = userEdit.password;
+            sanitizeHtml(user);
             await user.save();
             if (user) {
                 return { success: true };
