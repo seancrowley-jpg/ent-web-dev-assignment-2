@@ -117,11 +117,12 @@ const Users = {
         },
         handler: async function (request, h) {
             const userEdit = request.payload;
+            const hash = await bcrypt.hash(userEdit.password, saltRounds);
             const user = await User.findById(utils.getUserIdFromRequest(request));
             user.firstName = userEdit.firstName;
             user.lastName = userEdit.lastName;
             user.email = userEdit.email;
-            user.password = userEdit.password;
+            user.password = hash;
             sanitizeHtml(user);
             await user.save();
             if (user) {
